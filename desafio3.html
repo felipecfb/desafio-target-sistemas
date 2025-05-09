@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio 3 Faturamento Mensal - Target Sistemas</title>
+</head>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    font-family: Roboto, sans-serif;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #218838;
+  }
+
+  .result {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <h1>Desafio 3 - Faturamento Mensal</h1>
+
+    <pre id="data"></pre>
+
+    <div class="result">
+      <section>
+        <h2>
+          Menor valor de faturamento do mês:
+        </h2>
+        <p>
+          <span id="lowestValue"></span>
+        </p>
+      </section>
+      <section>
+        <h2>
+          Maior valor de faturamento do mês:
+        </h2>
+        <p>
+          <span id="highestValue"></span>
+        </p>
+      </section>
+      <section>
+        <h2>
+          Número de dias em que o faturamento foi superior à média mensal:
+        </h2>
+        <p>
+          <span id="numberOfDaysAboveAverage"></span>
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const lowestValueElement = document.getElementById('lowestValue')
+    const highestValueElement = document.getElementById('highestValue')
+    const numberOfDaysAboveAverageElement = document.getElementById('numberOfDaysAboveAverage')
+
+    const data = fetch('dados.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao carregar o arquivo JSON')
+        }
+
+        return response.json()
+      })
+      .then(data => {
+        const sum = data.reduce((acc, item) => acc + item.valor, 0)
+        const average = sum / data.length
+
+        const lowestValue = Math.min(...data.map(item => item.valor))
+        const highestValue = Math.max(...data.map(item => item.valor))
+        const numberOfDaysAboveAverage = data.filter(item => item.valor > average)
+
+        lowestValueElement.innerHTML = `
+          ${lowestValue.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          })}
+        `
+
+        highestValueElement.innerHTML = `
+          ${highestValue.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          })}
+        `
+
+        numberOfDaysAboveAverageElement.innerHTML = `
+          A média mensal de faturamento foi de ${average.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+          })}. <br /><br />
+
+          Teve um total de dias com faturamento superior a média mensal de ${numberOfDaysAboveAverage.length} dias. <br />
+          Sendo eles: <br />
+          ${
+            numberOfDaysAboveAverage.map(item => {
+              return `
+                ${item.dia} - ${item.valor.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+              })}
+              <br />
+              `
+            }).join('')
+          }
+        `
+      })
+      .catch(error => {
+        console.error('Erro:', error)
+      })
+
+    const lowestBillingOfMonth = (data) => {
+      const lowest = Math.min(...data.map(item => item.valor))
+    }
+  </script>
+</body>
+
+</html>

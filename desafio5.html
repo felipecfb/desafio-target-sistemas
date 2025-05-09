@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio 5 Inversão de Caracteres - Target Sistemas</title>
+</head>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    font-family: Roboto, sans-serif;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #218838;
+  }
+
+  .result {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <form>
+      <h1>Desafio 2 - Inversão de Caracteres</h1>
+      <label for="value">
+        Palavra
+      </label>
+      <input type="text" name="value" id="value" placeholder="Digite qualquer palavra" required>
+
+      <button type="submit">Enviar</button>
+    </form>
+
+    <div class="result">
+      <h2>Resultado</h2>
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <script>
+  const form = document.querySelector('form')
+  const resultElement = document.getElementById('result')
+  const valueInput = document.getElementById('value')
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault()
+
+    valueInput.style.borderColor = '#000000'
+    valueInput.style.color = '#000000'
+
+
+    if (valueInput.value === '') {
+      valueInput.style.borderColor = '#ff0000'
+      valueInput.style.color = '#ff0000'
+      resultElement.innerHTML = 'Por favor, preencha o campo.'
+      
+      return
+    }
+    
+    const reversedValue = reverseString(valueInput.value)
+
+    resultElement.innerHTML = `A palavra invertida é: ${reversedValue}`
+  })
+
+  const reverseString = (str) => {
+    let reversed = ''
+
+    for (let i = str.length - 1; i >= 0; i--) {
+      reversed += str[i]
+
+      console.log(reversed)
+    }
+
+    return reversed
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio 4 Percentual de Representação - Target Sistemas</title>
+</head>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    font-family: Roboto, sans-serif;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #218838;
+  }
+
+  .result {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+</style>
+
+<body>
+  <div class="container">
+    <h1>Desafio 3 - Percentual de Representação</h1>
+
+    <div class="result">
+      <h4 id="sum"></h4>
+    </div>
+  </div>
+
+  <script>
+    const sumElement = document.getElementById('sum')
+    const resultElement = document.querySelector('.result')
+
+    const data = [
+      { "state": "SP", "value": 67836.43 },
+      { "state": "RJ", "value": 36678.66 },
+      { "state": "MG", "value": 29229.88 },
+      { "state": "ES", "value": 27165.48 },
+      { "state": "others", "value": 19849.53 }
+    ]
+
+    const sum = data.reduce((acc, curr) => acc + curr.value, 0)
+    sumElement.innerHTML = `O valor total mensal da distribuidora é: R$ ${sum.toFixed(2)}`
+
+    const percentagesText = (state, percentage) => {
+      return `O percentual de representação de ${state} é: ${percentage}%`
+    }
+
+    const percentagesPerState = data.map(item => {
+      const percentage = (item.value / sum) * 100
+
+      if (item.state === 'others') {
+        return percentagesText('outros estados', percentage.toFixed(2))
+      }
+
+      return percentagesText(item.state, percentage.toFixed(2))
+    })
+
+    resultElement.innerHTML += percentagesPerState.join('<br>')
+  </script>
+</body>
+
+</html>
